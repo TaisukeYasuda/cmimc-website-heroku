@@ -1,0 +1,12 @@
+<section>
+<h1>Home</h1>
+
+<div ng-if="!isLoggedIn()">
+Try <a href="/#/login">logging in</a>. 
+</div>
+
+<div ng-if="isLoggedIn()">
+Name: {{currentUser()}} <br />
+Account Type: {{accountType()}}
+</div>
+</section>

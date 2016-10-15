@@ -1,0 +1,221 @@
+body	{
+	margin: 0;
+	padding: 0;
+	font-family: Open Sans, Arial, Helvetica, sans-serif;
+	background-color: white;
+	background-image: url('../img/the-tile.gif');
+	background-repeat: repeat;
+}
+
+h1	{
+	margin: 0 0 12px 0;
+	padding: 0;
+}
+
+header	{
+	border-bottom: 1px solid #4A4A4A;
+	padding: 15px 20px;
+	background-color: white;
+    box-shadow: 0 5px 5px -2px rgba(0,0,0,0.1);
+}
+
+header img	{
+	float: left;
+}
+
+header nav	{
+	float: right;
+}
+
+header nav ul	{
+	list-style-type: none;
+	height: 28px;
+	margin: 0;
+	padding: 0;
+}
+
+header nav ul li	{
+	float: left;
+	display: block;
+	margin-left: 25px;
+}
+
+header nav ul li a	{
+	display: block;
+	line-height: 28px;
+	height: 28px;
+	text-decoration: none;
+	color: #4A4A4A;
+	font-size: 14px;
+}
+
+header nav ul li a:link, header nav ul li a:visited	{
+	text-decoration: none;
+	color: #4A4A4A;
+}
+
+header nav ul li a:hover, header nav ul li a:active	{
+	text-decoration: underline;
+	color: #7A7A7A;
+}
+
+.logout	{
+	display: block;
+	height: 28px;
+	float: right;
+	margin-left: 25px;
+	line-height: 28px;
+	font-size: 14px;
+	background-color: #D33434;
+	color: white;
+	text-decoration: none;
+	padding: 0 15px;
+	border-radius: 15px;
+}
+
+.logout:link, .logout:visited	{
+	background-color: #D33434;
+}
+
+.logout:hover, .logout:active	{
+	background-color: #E24646;
+}
+
+.clearFloat	{
+	clear: both;
+}
+
+section	{
+	margin: 25px auto;
+	padding: 25px;
+	border-radius: 10px;
+	width: 80%;
+	background-color: rgba(255,255,255,0.9);
+}
+
+label	{
+	float: left;
+	margin: 0 10px 0 0;
+}
+
+input[type="text"], input[type="password"], select, textarea	{
+	margin-bottom: 10px;
+	font-family: Open Sans, Arial, Helvetica, sans-serif;
+	font-size: 16px;
+}
+
+input[type="text"], input[type="password"], textarea	{
+	border: 1px solid #999;
+}
+
+input[type="text"], input[type="password"]	{
+	padding: 4px 8px;
+	height: 32px;
+	width: 280px;
+	line-height: 32px;
+}
+
+select {
+	-webkit-appearance: button;
+	-webkit-border-radius: 2px;
+	-webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+	-webkit-padding-end: 20px;
+	-webkit-padding-start: 2px;
+	-webkit-user-select: none;
+	background-image: url(http://i62.tinypic.com/15xvbd5.png), -webkit-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);
+	background-position: 97% center;
+	background-repeat: no-repeat;
+	border: 1px solid #AAA;
+	color: #555;
+	font-size: inherit;
+	overflow: hidden;
+	padding: 5px 10px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 300px;
+}
+
+select:disabled {
+    color: #ccc;
+}
+
+textarea	{
+	padding : 4px 8px;
+	width   : 600px;
+	height  : 100px;
+	resize  : none;
+	overflow: auto;
+}
+
+input[type="submit"], .form-btn	{
+	font-size: 18px !important;
+	background-color: #D33434;
+	color: #ffffff;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border: 1px solid #D65757;
+	cursor: pointer;
+	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+	-moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+	-webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+}
+
+input[type="submit"]	{
+	padding: 8px 16px 8px !important;
+}
+
+.form-btn	{
+	padding: 6px 16px 7px !important;
+}
+
+input[type="submit"]:link, input[type="submit"]:visited, .form-btn:link, .form-btn:visited	{
+	background-color: #D33434;
+}
+
+input[type="submit"]:hover, input[type="submit"]:active, .form-btn:hover, .form-btn:active	{
+	background-color: #E24646;
+}
+
+table	{
+	border-collapse: collapse;
+	width: 100%;
+	margin: 20px 0;
+}
+
+td	{
+	line-height: 20px;
+	padding: 8px;
+}
+
+table tr:first-child td	{
+	font-weight: bold;
+}
+
+table tr:nth-child(even) td	{
+	background-color: #F0F0F0;
+}
+
+table tr:nth-child(odd) td	{
+	background-color: #DBDBDB;
+}
+
+table tr:first-child td	{
+	background-color: #B9B9B9;
+}
+
+
+
+
+.form-error-msg	{
+	display: block;
+	width: calc(100% - 20px);
+	line-height: 24px;
+	margin-bottom: 10px;
+	padding: 10px;
+
+	border-radius: 5px;
+	border: 1px solid #ebccd1;
+	background-color: #f2dede;
+	color: #a94442;
+}

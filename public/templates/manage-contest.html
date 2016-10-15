@@ -1,0 +1,24 @@
+<section>
+<h1>Manage Contest</h1>
+<div ng-show="bank.length == 0">
+	Problem bank is empty.
+</div>
+<table ng-hide="bank.length == 0">
+<tr>
+	<td>ID</td>
+	<td>Topic</td>
+	<td>Statement</td>
+	<td>View</td>
+  <td>Checked</td>
+</tr>
+<tr ng-repeat="p in bank">
+	<td>{{p.probid}}</td>
+	<td>{{p.topic}}</td>
+	<td>{{p.problem}}</td>
+  <td><a href="#/view-prob/{{p.probid}}" class="view-btn"></a></td>
+  <td>
+    <input ng-change="changeChecked(p.probid,p.checked)" type="checkbox" ng-true-value="1" ng-model="p.checked"></input>
+  </td>
+</tr>
+</table>
+</section>

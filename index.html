@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<head>
+  <!-- css -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/my-proposals.css" />
+  <!-- js -->
+  <script type="text/javascript" src="js/main.js"></script>
+  <!-- math jax -->
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+  });
+  </script>
+  <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML"></script>
+  <!-- angular js -->
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
+  <!-- angular app -->
+  <script type="text/javascript" src="js/app.js"></script>
+  <script type="text/javascript" src="js/controller.js"></script>
+  <script type="text/javascript" src="js/auth-factory.js"></script>
+  <script type="text/javascript" src="js/proposal-factory.js"></script>
+  <script type="text/javascript" src="js/comment-factory.js"></script>
+  <script type="text/javascript" src="js/solutions-factory.js"></script>
+  <script type="text/javascript" src="js/staff-factory.js"></script>
+</head>
+
+<body ng-app="mainApp">
+<header ng-controller="navCtrl">
+	<img src="img/cmimc-logo-huge.png" height="28px" />
+	<div ng-hide="isLoggedIn()">
+	<a href="#/login" class="logout">Log In</a>
+	</div>
+	<div ng-show="isLoggedIn()">
+	<a href="#/logged-out" class="logout">Log Out</a>
+	<nav>
+		<ul>
+			<li ng-if="accountType() == 'Admin'"><a href="#/manage-users">Manage Users</a></li>
+			<li ng-if="accountType() == 'Admin'"><a href="#/manage-contest">Manage Contest</a></li>
+			<li ng-if="accountType() == 'Admin' || accountType() == 'Test Solver' || accountType() == 'Secure Member'"><a href="#/prob-bank">Problem Bank</a></li>
+			<li ng-if="accountType() == 'Admin' || accountType() == 'Secure Member' || accountType() == 'Member'"><a href="#/proposals">My Proposals</a></li>
+			<li ng-if="accountType() == 'Admin' || accountType() == 'Secure Member' || accountType() == 'Member'"><a href="#/propose">Submit Proposal</a></li>
+		</ul>
+	</nav>
+	</div>
+	<br class="clearFloat" />
+</header>
+
+<ui-view></ui-view>
+
+</body>
+</html>

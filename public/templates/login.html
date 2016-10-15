@@ -1,0 +1,14 @@
+<section>
+<div ng-show="error" class="alert alert-danger row">
+  <span class="form-error-msg">{{ error.message }}</span>
+</div>
+
+<h1>Log In</h1>
+<p>Don't have an account? Try <a href="#/signup">signing up</a>.</p>
+
+<form ng-submit="login()">
+  <input type="text" name="email" ng-model="user.email" placeholder="Email" /><br />
+  <input type="password" name="password" ng-model="user.password" placeholder="Password" /><br />
+  <input type="submit" name="submit" value="Log In" />
+</form>
+</section>

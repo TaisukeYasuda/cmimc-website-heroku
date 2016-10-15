@@ -1,0 +1,16 @@
+<section>
+
+<div ng-show="error" class="alert alert-danger row">
+  <span class="form-error-msg">{{ error.message }}</span>
+</div>
+
+<h1>Sign Up</h1>
+<form ng-submit="signup()">
+<input type="text" name="name" ng-model="user.name" placeholder="Full Name" /><br />
+<input type="text" name="andrewid" ng-model="user.andrewid" placeholder="AndrewID" /><br />
+<input type="text" name="email" ng-model="user.email" placeholder="Email" /><br />
+<input type="password" name="password1" ng-model="user.password1" placeholder="Password" /><br />
+<input type="password" name="password2" ng-model="user.password2" placeholder="Password (confirm)" /><br />
+<input type="submit" name="submit" />
+</form>
+</section>

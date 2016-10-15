@@ -1,0 +1,22 @@
+<section>
+<h1>My Proposals</h1>
+<div ng-show="probs.length == 0">
+	No proposals.
+</div>
+<table ng-hide="probs.length == 0">
+<tr>
+	<td>ID</td>
+	<td>Topic</td>
+	<td>Statement</td>
+	<td>View</td>
+	<td>Edit</td>
+</tr>
+<tr ng-repeat="p in probs">
+	<td>{{p.probid}}</td>
+	<td>{{p.topic}}</td>
+	<td>{{p.problem}}</td>
+	<td><a href="#/view-prob/{{p.probid}}" class="view-btn"></a></td>
+	<td><a href="#/edit-prob/{{p.probid}}" class="edit-btn"></a></td>
+</tr>
+</table>
+</section>

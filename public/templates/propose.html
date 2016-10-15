@@ -1,0 +1,33 @@
+<section>
+<h1>Submit Proposal</h1>
+<form ng-submit="submit()" id="prob-form">
+<select required="required" form="prob-form" name="prob-topic" ng-model="prob.topic">
+	<option value="">Subject</option>
+	<option value="Algebra">Algebra</option>
+	<option value="Combinatorics">Combinatorics</option>
+	<option value="Computer Science">Computer Science</option>
+	<option value="Geometry">Geometry</option>
+	<option value="Number Theory">Number Theory</option>
+	<option value="Other">Other</option>
+</select><br class="clearFloat" />
+<select required="required" form="prob-form" name="prob-diff" ng-model="prob.difficulty">
+	<option value="">Difficulty</option>
+	<option value="1">1</option>
+	<option value="2">2</option>
+	<option value="3">3</option>
+	<option value="4">4</option>
+	<option value="5">5</option>
+	<option value="6">6</option>
+	<option value="7">7</option>
+	<option value="8">8</option>
+	<option value="9">9</option>
+	<option value="10">10</option>
+</select><br class="clearFloat" />
+<textarea name="prob-stmt" id="prob-stmt" ng-model="prob.problem" placeholder="Problem statement" required></textarea><br />
+<input type="text" name="prob-ans" id="prob-ans" ng-model="prob.answer" placeholder="Answer" required /><br />
+<textarea name="prob-soln" id="prob-soln" ng-model="prob.solution" placeholder="Solution"required></textarea><br />
+<a class="form-btn" onclick="previewProposal()">Preview</a>
+<input type="submit" name="prob-submit" value="Submit" />
+</form>
+<div id="preview-zone"></div>
+</section>
