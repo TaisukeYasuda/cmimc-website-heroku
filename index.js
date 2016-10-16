@@ -5,7 +5,8 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
-var mysql = require('mysql');
+var mongoose = require('mongoose');
+var autoIncrement = require('mongoose-auto-increment');
 var app = express();
 // security
 var crypto = require('crypto');
@@ -17,44 +18,77 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-if (process.env.NODE_ENV!='production') {
-  var connection = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    database: "cmimc"
-  });
-} else {
-  var connection = mysql.createConnection({
-    host: process.env.MYSQL_HOST,
-    user: process.env.MYSQL_USER,
-    password: process.env.MYSQL_PASSWORD,
-    database: process.env.MYSQL_DATABASE
-  });
-}
-connection.connect();
+// mongodb database
 
-// refresh connection every 30 min
-setTimeout (function () {
-  connection.query('SELECT 1');
-},1000*60*30);
+var connection;
+if (process.env.NODE_ENV!='production') {
+  connection = mongoose.connect('mongodb://localhost/cmimc_db');
+} else {
+  connection = mongoose.connect(process.env.MONGODB_URI);
+}
+autoIncrement.initialize(connection);
+
+var StaffSchema = new mongoose.Schema({
+  email: String,
+  password: String,
+  name: String,
+  type: String,
+  andrewid: String,
+  salt: String
+});
+StaffSchema.plugin(autoIncrement.plugin, { model: 'Staff', field: 'staffid' });
+mongoose.model('Staff', StaffSchema);
+
+var ProposalSchema = new mongoose.Schema({
+  staffid: Number,
+  topic: String,
+  problem: String,
+  answer: String,
+  solution: String,
+  difficulty: Number,
+  checked: Boolean
+});
+ProposalSchema.plugin(autoIncrement.plugin, { model: 'Proposals', field: 'probid' });
+mongoose.model('Proposals', ProposalSchema);
+
+var CommentSchema = new mongoose.Schema({
+  staffid: Number,
+  probid: Number,
+  comment: String
+});
+mongoose.model('Comments', CommentSchema);
+
+var SolutionSchema = new mongoose.Schema({
+  staffid: Number,
+  probid: Number,
+  solution: String
+});
+mongoose.model('Solutions', SolutionSchema);
+
+var Staff = mongoose.model('Staff');
+var Proposals = mongoose.model('Proposals');
+var Comments = mongoose.model('Comments');
+var Solutions = mongoose.model('Solutions');
+
+// set up passport
 
 passport.use(new LocalStrategy(
   function(username, password, done) {
     var email = username;
-    connection.query("SELECT * FROM staff WHERE email='"+email+"' LIMIT 1", function(err, rows, fields) {
+    Staff.find({email: email}, function(err, result) {
       if (err) { return done(err); }
 
-      if(rows.length == 0) {
+      if(result.length == 0) {
         return done(null, false, { message: 'Incorrect username.' });
       }
       else {
-        var submitPassword = rows[0].password;
-        var salt = rows[0].salt;
+        var submitPassword = result[0].password;
+        var salt = result[0].salt;
         var hash = crypto.pbkdf2Sync(password, salt, 1000, 64).toString('hex');
         if (submitPassword !== hash) {
           return done(null, false, { message: 'Incorrect password.' });
         }
-        return done(null, rows[0]);
+        return done(null, result[0]);
       }
       });
     }));
