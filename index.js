@@ -123,5 +123,17 @@ io.on('connection', function (socket) {
     console.log('New problem proposal: ' + JSON.stringify(proposal.data))
     socket.broadcast.emit('problem proposal', proposal.data)
   })
+  socket.on('staff type update', function(update) {
+    console.log('Staff type update: ' + JSON.stringify(update))
+    Staff.findOne({staffid: update.staffid}, function (err, staff) {
+      if (err) {
+        socket.emit('error', 'cannot find the staff')
+        return
+      } else {
+        update.jwt = routes.generateJWT(staff.name,staff.email,update.type,staff.staffid)
+        socket.broadcast.emit('staff type update', update)
+      }
+    })
+  })
 	console.log('Client socket connected')
 })

@@ -28,6 +28,8 @@ function generateJWT (name, email, type, id) {
   }, process.env.JWT_SECRET);
 };
 
+router.generateJWT = generateJWT
+
 /* GET home page. */
 router.get('/', function (req, res) {
    res.sendFile( __dirname + "/" + "index.html" );
@@ -290,7 +292,7 @@ router.put('/staff/type/:staffid', auth, function(req, res, next) {
     if (!result) { return next(new Error('can\'t find staffid')); }
 
     console.log('Staff account type of '+req.staff.staffid.toString()+' updated to '+req.body.type);
-    res.status(200);
+    res.status(200).json(req.body);
   });
 });
 
