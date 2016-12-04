@@ -42,6 +42,7 @@ mongoose.model('Staff', StaffSchema);
 
 var ProposalSchema = new mongoose.Schema({
   staffid: Number,
+  staffname: String, 
   topic: String,
   problem: String,
   answer: String,

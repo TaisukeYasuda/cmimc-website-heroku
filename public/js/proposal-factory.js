@@ -50,7 +50,7 @@ app.factory('proposals', ['$http', '$rootScope', 'auth', 'socket', function($htt
   o.get = function (probid) {
     return $http.get('/proposals/problem/'+probid, {
         headers: {Authorization: 'Bearer '+auth.getToken()}
-      }).success(function(data){
+      }).success(function(data) {
       angular.copy(data, o.prob)
     })
   }
@@ -58,7 +58,7 @@ app.factory('proposals', ['$http', '$rootScope', 'auth', 'socket', function($htt
   o.put = function (probid, prob) {
     return $http.put('/proposals/problem/'+probid, prob, {
         headers: {Authorization: 'Bearer '+auth.getToken()}
-      }).success(function(data){
+      }).success(function(data) {
       //
     })
   }

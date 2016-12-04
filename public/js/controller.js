@@ -78,6 +78,7 @@ function ($scope, $state, $http, auth, proposals) {
   $scope.submit = function() {
     var prob = $scope.prob
     prob.staffid = auth.staffId()
+    prob.staffname = auth.currentUser()
     proposals.create(prob)
   }
 }])
