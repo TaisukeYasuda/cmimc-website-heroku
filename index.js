@@ -8,6 +8,7 @@ var cookieParser = require('cookie-parser');
 var mongoose = require('mongoose');
 var autoIncrement = require('mongoose-auto-increment');
 var app = express();
+var sio = require("socket.io");
 // security
 var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
@@ -111,3 +112,12 @@ var server = app.listen(process.env.PORT || 3000, function () {
     var port = server.address().port;
     console.log("App now running on port", port);
 });
+
+// socket.io
+var io = sio.listen(server)
+io.sockets.on("connection", function (socket) {
+	socket.on("disconnect", function () {
+		console.log("client disconnected from server")
+	})
+	console.log("client socket connected")
+})
