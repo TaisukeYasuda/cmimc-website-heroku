@@ -48,6 +48,7 @@ function($scope, $rootScope, $state, $stateParams, auth, proposals, comments, so
       }
     }
   })
+
   socket.on('problem proposal', function (proposal) {
     proposals.newProb(proposal)
     if (proposal.staffid === auth.staffId()) {
@@ -63,13 +64,13 @@ function($scope, $rootScope, $state, $stateParams, auth, proposals, comments, so
   })
 
   socket.on('comment', function (comment) {
-    if($stateParams.id === comment.probid){
+    if ($stateParams.id == comment.probid) {
       comments.newComment(comment)
     }
   })
 
   socket.on('solution', function (solution) {
-    if($stateParams.id === solution.probid) {
+    if ($stateParams.id === solution.probid) {
       solutions.newSolution(solution)
     }
   })
@@ -168,7 +169,6 @@ function ($scope, $state, $stateParams, auth, proposals, comments, solutions) {
     $scope.comment.staffid = auth.staffId()
     $scope.comment.probid = $scope.prob.probid
     comments.create(angular.copy($scope.comment))
-    $scope.comments.push(angular.copy($scope.comment))
     $scope.comment.comment = ''
   }
 
@@ -176,7 +176,6 @@ function ($scope, $state, $stateParams, auth, proposals, comments, solutions) {
     $scope.solution.staffid = auth.staffId()
     $scope.solution.probid = $scope.prob.probid
     solutions.create(angular.copy($scope.solution))
-    $scope.solutions.push(angular.copy($scope.solution))
     $scope.solution.solution = ''
   }
 }])

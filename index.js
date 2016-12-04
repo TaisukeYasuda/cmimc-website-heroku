@@ -42,7 +42,7 @@ mongoose.model('Staff', StaffSchema);
 
 var ProposalSchema = new mongoose.Schema({
   staffid: Number,
-  staffname: String, 
+  staffname: String,
   topic: String,
   problem: String,
   answer: String,
@@ -126,11 +126,11 @@ io.on('connection', function (socket) {
   })
   socket.on('comment', function(comment) {
     console.log('New comment: ' + JSON.stringify(comment))
-    socket.broadcast.emit('comments', comment)
+    socket.broadcast.emit('comment', comment)
   })
   socket.on('solution', function(solution) {
-    console.log('New solution: ' + JSON.stringify(solution.data))
-    socket.broadcast.emit('solutions', solution.data)
+    console.log('New solution: ' + JSON.stringify(solution))
+    socket.broadcast.emit('solution', solution)
   })
 
   socket.on('staff type update', function(update) {

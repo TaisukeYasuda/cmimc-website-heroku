@@ -231,7 +231,7 @@ router.post('/comments', auth, function(req, res, next) {
 
     console.log('Comment received: ');
     console.log(req.body);
-    res.status(200);
+    res.status(200).json(req.body);
   });
 });
 
@@ -252,7 +252,7 @@ router.post('/solutions', auth, function(req, res, next) {
 
     console.log('Alternate solution received: ');
     console.log(req.body);
-    res.status(200);
+    res.status(200).json(req.body);
   });
 });
 

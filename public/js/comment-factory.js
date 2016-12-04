@@ -1,4 +1,4 @@
-app.factory('comments', ['$http', 'auth', function($http, auth) {
+app.factory('comments', ['$http', 'auth', 'socket', function($http, auth, socket) {
   var o = {
     comments: []
   }
@@ -10,7 +10,7 @@ app.factory('comments', ['$http', 'auth', function($http, auth) {
       function (res) {
         // success callback
         o.comments.push(angular.copy(comment))
-        socket.emit('comment',res)
+        socket.emit('comment',comment)
         // notify
         $rootScope.$broadcast('comments:written')
       },

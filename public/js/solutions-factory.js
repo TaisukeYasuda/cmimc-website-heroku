@@ -1,4 +1,4 @@
-app.factory('solutions', ['$http', 'auth', function($http, auth) {
+app.factory('solutions', ['$http', 'auth', 'socket', function($http, auth, socket) {
   var o = {
     solutions: []
   };
@@ -9,13 +9,13 @@ app.factory('solutions', ['$http', 'auth', function($http, auth) {
       }).then(
       function (res) {
         // success callback
-        o.solutions.push(angular.copy(solution));
-        socket.emit('solution',res)
+        o.solutions.push(angular.copy(solution))
+        socket.emit('solution',solution)
         // notify
         $rootScope.$broadcast('solutions:written')
       },
       function (res) {
-        // failure callback
+        // failure callback @TODO
       }
     );
   };
