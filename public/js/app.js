@@ -19,7 +19,12 @@ function($stateProvider, $urlRouterProvider) {
         staffPromise: ['staff', function(staff){
           return staff.getAll();
         }]
-      }
+      },
+      onEnter: ['$state', 'auth', function ($state, auth) {
+        if (!auth.isLoggedIn() || auth.accountType() !== 'Admin') {
+          $state.go('access-denied')
+        }
+      }]
     })
     .state('manage-contest', {
       url: '/manage-contest',
@@ -27,9 +32,14 @@ function($stateProvider, $urlRouterProvider) {
       templateUrl: 'templates/manage-contest.html',
       resolve: {
         bankPromise: ['proposals', function(proposals){
-          return proposals.getBank();
+          return proposals.getBank()
         }]
-      }
+      },
+      onEnter: ['$state', 'auth', function ($state, auth) {
+        if (!auth.isLoggedIn() || auth.accountType() !== 'Admin') {
+          $state.go('access-denied')
+        }
+      }]
     })
     .state('prob-bank', {
       url: '/prob-bank',
@@ -37,9 +47,16 @@ function($stateProvider, $urlRouterProvider) {
       templateUrl: 'templates/prob-bank.html',
       resolve: {
         bankPromise: ['proposals', function(proposals){
-          return proposals.getBank();
+          return proposals.getBank()
         }]
-      }
+      },
+      onEnter: ['$state', 'auth', function ($state, auth) {
+        if (!auth.isLoggedIn() || (auth.accountType() !== 'Admin' &&
+                                   auth.accountType() !== 'Secure Member' &&
+                                   auth.accountType() !== 'Test Solver')) {
+          $state.go('access-denied')
+        }
+      }]
     })
     .state('proposals', {
       url: '/proposals',
@@ -47,7 +64,7 @@ function($stateProvider, $urlRouterProvider) {
       controller: 'myProposalsCtrl',
       resolve: {
         postPromise: ['proposals', function(proposals){
-          return proposals.getAll();
+          return proposals.getAll()
         }]
       }
     })
@@ -61,7 +78,7 @@ function($stateProvider, $urlRouterProvider) {
       controller: 'editProbCtrl',
       resolve: {
         prob: ['$stateParams', 'proposals', function($stateParams, proposals) {
-          return proposals.get($stateParams.id);
+          return proposals.get($stateParams.id)
         }]
       }
     })
@@ -71,13 +88,13 @@ function($stateProvider, $urlRouterProvider) {
       controller: 'viewProbCtrl',
       resolve: {
         prob: ['$stateParams', 'proposals', function($stateParams, proposals) {
-          return proposals.get($stateParams.id);
+          return proposals.get($stateParams.id)
         }],
         commentsPromise: ['$stateParams', 'comments', function($stateParams, comments) {
-          return comments.get($stateParams.id);
+          return comments.get($stateParams.id)
         }],
         solutionsPromise: ['$stateParams', 'solutions', function($stateParams, solutions) {
-          return solutions.get($stateParams.id);
+          return solutions.get($stateParams.id)
         }]
       }
     })
@@ -92,7 +109,7 @@ function($stateProvider, $urlRouterProvider) {
       controller: 'authCtrl',
       onEnter: ['$state', 'auth', function ($state, auth) {
         if (auth.isLoggedIn()) {
-          $state.go('propose');
+          $state.go('propose')
         }
       }]
     })
@@ -115,5 +132,5 @@ function($stateProvider, $urlRouterProvider) {
       }]
     });
 
-  $urlRouterProvider.otherwise('error');
-}]);
+  $urlRouterProvider.otherwise('error')
+}])
