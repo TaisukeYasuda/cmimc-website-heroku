@@ -24,10 +24,13 @@ app.controller('navCtrl', [
 '$scope',
 '$rootScope',
 '$state',
+'$stateParams',
 'auth',
 'proposals',
+'comments',
+'solutions',
 'socket',
-function($scope, $rootScope, $state, auth, proposals, socket){
+function($scope, $rootScope, $state, $stateParams, auth, proposals, comments, solutions, socket){
   // get info by calling isLoggedIn() and currentUser()
   $scope.isLoggedIn = auth.isLoggedIn
   $scope.currentUser = auth.currentUser
@@ -51,10 +54,23 @@ function($scope, $rootScope, $state, auth, proposals, socket){
       proposals.myProb(proposal)
     }
   })
+
   socket.on('proposal deleted', function (proposal) {
     proposals.deleteProb(proposal)
     if (proposal.staffid === auth.staffId()) {
       proposals.deleteMyProb(proposal)
+    }
+  })
+
+  socket.on('comment', function (comment) {
+    if($stateParams.id === comment.probid){
+      comments.newComment(comment)
+    }
+  })
+
+  socket.on('solution', function (solution) {
+    if($stateParams.id === solution.probid) {
+      solutions.newSolution(solution)
     }
   })
 }])
@@ -128,11 +144,12 @@ function ($scope, $http, proposals) {
 app.controller('viewProbCtrl', [
 '$scope',
 '$state',
+'$stateParams',
 'auth',
 'proposals',
 'comments',
 'solutions',
-function ($scope, $state, auth, proposals, comments, solutions) {
+function ($scope, $state, $stateParams, auth, proposals, comments, solutions) {
   $scope.comments = comments.comments
   $scope.solutions = solutions.solutions
 

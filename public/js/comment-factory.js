@@ -10,6 +10,9 @@ app.factory('comments', ['$http', 'auth', function($http, auth) {
       function (res) {
         // success callback
         o.comments.push(angular.copy(comment))
+        socket.emit('comment',res)
+        // notify
+        $rootScope.$broadcast('comments:written')
       },
       function (res) {
         // failure callback @TODO
@@ -23,6 +26,11 @@ app.factory('comments', ['$http', 'auth', function($http, auth) {
       }).success(function(data) {
       angular.copy(data, o.comments)
     })
+  }
+
+    // new comment added to bank
+  o.newComment = function (comment) {
+    o.comments.push(comment)
   }
 
   return o

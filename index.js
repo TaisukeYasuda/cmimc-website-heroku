@@ -124,6 +124,15 @@ io.on('connection', function (socket) {
     console.log('New problem proposal: ' + JSON.stringify(proposal.data))
     socket.broadcast.emit('problem proposal', proposal.data)
   })
+  socket.on('comment', function(comment) {
+    console.log('New comment: ' + JSON.stringify(comment))
+    socket.broadcast.emit('comments', comment)
+  })
+  socket.on('solution', function(solution) {
+    console.log('New solution: ' + JSON.stringify(solution.data))
+    socket.broadcast.emit('solutions', solution.data)
+  })
+
   socket.on('staff type update', function(update) {
     console.log('Staff type update: ' + JSON.stringify(update))
     Staff.findOne({staffid: update.staffid}, function (err, staff) {
