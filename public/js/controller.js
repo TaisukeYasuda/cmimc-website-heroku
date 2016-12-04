@@ -44,12 +44,15 @@ function ($scope, $state, $http, auth, proposals) {
   $scope.staffid = auth.staffId()
   $scope.test = "test"
 
+  // triggered by proposals.create(prob) if successful
+  $scope.$on('problems:updated', function(event, data) {
+    $state.go('proposals', {}, {reload: true})
+  })
+
   $scope.submit = function() {
     var prob = $scope.prob
     prob.staffid = auth.staffId()
-    proposals.create(prob).then(
-      $state.go('proposals')
-    )
+    proposals.create(prob)
   }
 }]);
 

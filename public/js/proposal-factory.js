@@ -1,4 +1,4 @@
-app.factory('proposals', ['$http', 'auth', function($http, auth) {
+app.factory('proposals', ['$http', '$rootScope', 'auth', function($http, $rootScope, auth) {
   var o = {
     probs: [],
     prob: [],
@@ -37,6 +37,9 @@ app.factory('proposals', ['$http', 'auth', function($http, auth) {
       function (res) {
         // success callback
         o.probs.push(res)
+        socket.emit('problem proposal',res)
+        // notify
+        $rootScope.$broadcast('problems:updated')
       },
       function (res) {
         // failure callback
