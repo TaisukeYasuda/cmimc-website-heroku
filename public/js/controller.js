@@ -25,11 +25,11 @@ app.controller('navCtrl', [
 'auth',
 function($scope, auth){
   // get info by calling isLoggedIn() and currentUser()
-  $scope.isLoggedIn = auth.isLoggedIn;
-  $scope.currentUser = auth.currentUser;
-  $scope.accountType = auth.accountType;
-  $scope.staffId = auth.staffId;
-  $scope.logOut = auth.logOut;
+  $scope.isLoggedIn = auth.isLoggedIn
+  $scope.currentUser = auth.currentUser
+  $scope.accountType = auth.accountType
+  $scope.staffId = auth.staffId
+  $scope.logOut = auth.logOut
 }]);
 
 app.controller('proposeCtrl', [
@@ -41,14 +41,15 @@ app.controller('proposeCtrl', [
 function ($scope, $state, $http, auth, proposals) {
   // submit:
   // INSERT INTO proposals (staffid, topic, problem, answer, solution, difficulty) VALUES ()
-  $scope.staffid = auth.staffId();
-  $scope.test = "test";
+  $scope.staffid = auth.staffId()
+  $scope.test = "test"
 
   $scope.submit = function() {
-    var prob = $scope.prob;
-    prob.staffid = auth.staffId();
-    proposals.create(prob);
-    $state.go('proposals');
+    var prob = $scope.prob
+    prob.staffid = auth.staffId()
+    proposals.create(prob).then(
+      $state.go('proposals')
+    )
   }
 }]);
 
