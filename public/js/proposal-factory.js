@@ -66,8 +66,8 @@ app.factory('proposals', ['$http', '$rootScope', 'auth', 'socket', function($htt
   o.delete = function (probid) {
     return $http.delete('/proposals/problem/'+probid, {
         headers: {Authorization: 'Bearer '+auth.getToken()}
-      }).success(function(data){
-      //
+      }).success(function(data) {
+      socket.emit('proposal deleted', data)
     })
   }
 
@@ -79,6 +79,25 @@ app.factory('proposals', ['$http', '$rootScope', 'auth', 'socket', function($htt
   // new problem added to my proposals
   o.myProb = function (prob) {
     o.probs.push(prob)
+  }
+
+  function deleteByProbId (probs, probid) {
+    for (i in probs) {
+      if (probs[i].probid === probid) {
+        probs.splice(i,1)
+        return
+      }
+    }
+  }
+
+  // problem deleted
+  o.deleteProb = function (prob) {
+    deleteByProbId(o.bank, prob.probid)
+  }
+
+  // problem deleted form my proposals
+  o.deleteMyProb = function (prob) {
+    deleteByProbId(o.probs, prob.probid)
   }
 
   return o

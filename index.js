@@ -135,5 +135,9 @@ io.on('connection', function (socket) {
       }
     })
   })
+  socket.on('proposal deleted', function(data) {
+    console.log('Proposal deleted: ' + JSON.stringify(data))
+    io.emit('proposal deleted', data)
+  })
 	console.log('Client socket connected')
 })

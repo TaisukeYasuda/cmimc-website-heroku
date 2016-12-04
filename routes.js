@@ -208,7 +208,7 @@ router.delete('/proposals/problem/:probid', auth, function(req, res, next) {
     if (err) { return next(err); }
     if (!result) { return next(new Error('can\'t find probid')); }
 
-    res.status(200);
+    res.status(200).json({probid: req.prob[0].probid});
   });
 });
 

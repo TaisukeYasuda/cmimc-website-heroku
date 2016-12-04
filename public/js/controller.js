@@ -38,14 +38,23 @@ function($scope, $rootScope, $state, auth, proposals, socket){
   socket.on('staff type update', function (update) {
     if (update.staffid === auth.staffId()) {
       auth.saveToken(update.jwt)
-      $state.go($state.current, {}, {reload: true})
+      if ($state.current.url === '/prob-bank' ||
+          $state.current.url === '/manage-users' ||
+          $state.current.url === '/manage-contest') {
+        $state.go($state.current, {}, {reload: true})
+      }
     }
   })
-
   socket.on('problem proposal', function (proposal) {
     proposals.newProb(proposal)
     if (proposal.staffid === auth.staffId()) {
       proposals.myProb(proposal)
+    }
+  })
+  socket.on('proposal deleted', function (proposal) {
+    proposals.deleteProb(proposal)
+    if (proposal.staffid === auth.staffId()) {
+      proposals.deleteMyProb(proposal)
     }
   })
 }])
