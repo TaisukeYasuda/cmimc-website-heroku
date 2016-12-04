@@ -115,9 +115,13 @@ var server = app.listen(process.env.PORT || 3000, function () {
 
 // socket.io
 var io = sio.listen(server)
-io.sockets.on("connection", function (socket) {
-	socket.on("disconnect", function () {
-		console.log("client disconnected from server")
+io.on('connection', function (socket) {
+	socket.on('disconnect', function () {
+		console.log('Client disconnected from server')
 	})
-	console.log("client socket connected")
+  socket.on('problem proposal', function(proposal) {
+    console.log('New problem proposal: ' + JSON.stringify(proposal.data))
+    socket.broadcast.emit('problem proposal', proposal.data)
+  })
+	console.log('Client socket connected')
 })

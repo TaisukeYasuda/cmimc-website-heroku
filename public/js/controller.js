@@ -22,15 +22,22 @@ function($scope, $state, auth){
 
 app.controller('navCtrl', [
 '$scope',
+'$rootScope',
 'auth',
-function($scope, auth){
+'proposals',
+'socket',
+function($scope, $rootScope, auth, proposals, socket){
   // get info by calling isLoggedIn() and currentUser()
   $scope.isLoggedIn = auth.isLoggedIn
   $scope.currentUser = auth.currentUser
   $scope.accountType = auth.accountType
   $scope.staffId = auth.staffId
   $scope.logOut = auth.logOut
-}]);
+
+  socket.on('problem proposal', function (proposal) {
+    proposals.newProb(proposal)
+  })
+}])
 
 app.controller('proposeCtrl', [
 '$scope',
@@ -45,7 +52,7 @@ function ($scope, $state, $http, auth, proposals) {
   $scope.test = "test"
 
   // triggered by proposals.create(prob) if successful
-  $scope.$on('problems:updated', function(event, data) {
+  $scope.$on('problems:written', function(event, data) {
     $state.go('proposals', {}, {reload: true})
   })
 
@@ -54,7 +61,7 @@ function ($scope, $state, $http, auth, proposals) {
     prob.staffid = auth.staffId()
     proposals.create(prob)
   }
-}]);
+}])
 
 app.controller('manageContestCtrl', [
 '$scope',
@@ -79,7 +86,12 @@ app.controller('probBankCtrl', [
 '$http',
 'proposals',
 function ($scope, $http, proposals) {
-  $scope.bank = proposals.bank;
+  $scope.$on('problems:updated', function(event, proposal) {
+    alert('new proposal!')
+    $scope.$apply()
+  })
+
+  $scope.bank = proposals.bank
 }]);
 
 app.controller('myProposalsCtrl', [
@@ -87,7 +99,11 @@ app.controller('myProposalsCtrl', [
 '$http',
 'proposals',
 function ($scope, $http, proposals) {
-  $scope.probs = proposals.probs;
+  $scope.$on('problems:updated', function(event, proposal) {
+
+  })
+
+  $scope.probs = proposals.probs
 }]);
 
 app.controller('viewProbCtrl', [

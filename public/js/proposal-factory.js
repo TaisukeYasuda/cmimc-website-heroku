@@ -1,4 +1,4 @@
-app.factory('proposals', ['$http', '$rootScope', 'auth', function($http, $rootScope, auth) {
+app.factory('proposals', ['$http', '$rootScope', 'auth', 'socket', function($http, $rootScope, auth, socket) {
   var o = {
     probs: [],
     prob: [],
@@ -26,7 +26,7 @@ app.factory('proposals', ['$http', '$rootScope', 'auth', function($http, $rootSc
         headers: {Authorization: 'Bearer '+auth.getToken()}
       }).success(function(data){
       //
-    });
+    })
   }
 
   o.create = function (prob) {
@@ -39,20 +39,20 @@ app.factory('proposals', ['$http', '$rootScope', 'auth', function($http, $rootSc
         o.probs.push(res)
         socket.emit('problem proposal',res)
         // notify
-        $rootScope.$broadcast('problems:updated')
+        $rootScope.$broadcast('problems:written')
       },
       function (res) {
         // failure callback
       }
-    );
-  };
+    )
+  }
 
   o.get = function (probid) {
     return $http.get('/proposals/problem/'+probid, {
         headers: {Authorization: 'Bearer '+auth.getToken()}
       }).success(function(data){
-      angular.copy(data, o.prob);
-    });
+      angular.copy(data, o.prob)
+    })
   }
 
   o.put = function (probid, prob) {
@@ -60,7 +60,7 @@ app.factory('proposals', ['$http', '$rootScope', 'auth', function($http, $rootSc
         headers: {Authorization: 'Bearer '+auth.getToken()}
       }).success(function(data){
       //
-    });
+    })
   }
 
   o.delete = function (probid) {
@@ -68,8 +68,12 @@ app.factory('proposals', ['$http', '$rootScope', 'auth', function($http, $rootSc
         headers: {Authorization: 'Bearer '+auth.getToken()}
       }).success(function(data){
       //
-    });
+    })
   }
 
-  return o;
-}]);
+  o.newProb = function (proposal) {
+    o.probs.push(proposal)
+  }
+
+  return o
+}])

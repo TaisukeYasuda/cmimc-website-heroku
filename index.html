@@ -13,6 +13,8 @@
   });
   </script>
   <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML"></script>
+  <!-- socket.io -->
+  <script src="/socket.io/socket.io.js"></script>
   <!-- angular js -->
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
@@ -24,13 +26,8 @@
   <script type="text/javascript" src="js/comment-factory.js"></script>
   <script type="text/javascript" src="js/solutions-factory.js"></script>
   <script type="text/javascript" src="js/staff-factory.js"></script>
+  <script type="text/javascript" src="js/socket-factory.js"></script>
 </head>
-
-<!-- socket.io -->
-<script src="/socket.io/socket.io.js"></script>
-<script>
-  var socket = io()
-</script>
 
 <body ng-app="mainApp">
 <header ng-controller="navCtrl">
