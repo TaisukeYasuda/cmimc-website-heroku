@@ -71,8 +71,14 @@ app.factory('proposals', ['$http', '$rootScope', 'auth', 'socket', function($htt
     })
   }
 
-  o.newProb = function (proposal) {
-    o.probs.push(proposal)
+  // new problem added to bank
+  o.newProb = function (prob) {
+    o.bank.push(prob)
+  }
+
+  // new problem added to my proposals
+  o.myProb = function (prob) {
+    o.probs.push(prob)
   }
 
   return o

@@ -36,6 +36,9 @@ function($scope, $rootScope, auth, proposals, socket){
 
   socket.on('problem proposal', function (proposal) {
     proposals.newProb(proposal)
+    if (proposal.staffid === auth.staffId()) {
+      proposals.myProb(proposal)
+    }
   })
 }])
 
@@ -49,7 +52,6 @@ function ($scope, $state, $http, auth, proposals) {
   // submit:
   // INSERT INTO proposals (staffid, topic, problem, answer, solution, difficulty) VALUES ()
   $scope.staffid = auth.staffId()
-  $scope.test = "test"
 
   // triggered by proposals.create(prob) if successful
   $scope.$on('problems:written', function(event, data) {
