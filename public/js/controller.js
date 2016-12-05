@@ -15,7 +15,11 @@ function($scope, $state, auth){
     auth.login($scope.user).error(function(error){
       $scope.error = error
     }).then(function() {
-      $state.go('proposals')
+      if (auth.accountType === 'Test Solver') {
+        $state.go('prob-bank')
+      } else {
+        $state.go('proposals')
+      }
     })
   }
 }])
@@ -45,6 +49,9 @@ function($scope, $rootScope, $state, $stateParams, auth, proposals, comments, so
           $state.current.url === '/manage-users' ||
           $state.current.url === '/manage-contest') {
         $state.go($state.current, {}, {reload: true})
+      }
+      if (update.type === 'Test Solver') {
+        $state.go('prob-bank', {}, {reload: true})
       }
     }
   })
@@ -122,10 +129,12 @@ app.controller('probBankCtrl', [
 '$scope',
 '$http',
 'proposals',
-function ($scope, $http, proposals) {
+'auth',
+function ($scope, $http, proposals, auth) {
   $scope.$on('problems:updated', function(event, proposal) {
     $scope.$apply()
   })
+  $scope.accountType = auth.accountType
 
   $scope.bank = proposals.bank
 }])
@@ -159,10 +168,6 @@ function ($scope, $state, $stateParams, auth, proposals, comments, solutions) {
     $state.go('proposals') //@TODO go to an error message
   } else {
     $scope.prob = proposals.prob[0];
-    $scope.revealIdentity = function() {
-      document.getElementById("prob-author").innerHTML = $scope.prob.staffid
-      document.getElementById("prob-author").removeAttribute("href")
-    }
   }
 
   $scope.submitComment = function () {

@@ -10,7 +10,13 @@
 	<td>Statement</td>
 	<td>View</td>
 </tr>
-<tr ng-repeat="p in bank">
+<tr ng-hide="accountType() === 'Test Solver'" ng-repeat="p in bank">
+	<td>{{p.probid}}</td>
+	<td>{{p.topic}}</td>
+	<td>{{p.problem}}</td>
+  <td><a href="#/view-prob/{{p.probid}}" class="view-btn"></a></td>
+</tr>
+<tr ng-show="accountType() === 'Test Solver'" ng-repeat="p in bank | filter:{checked: true}">
 	<td>{{p.probid}}</td>
 	<td>{{p.topic}}</td>
 	<td>{{p.problem}}</td>

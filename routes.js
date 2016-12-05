@@ -100,21 +100,21 @@ router.post('/login', function(req, res, next){
 
 router.get('/proposals/bank/', auth, function(req, res, next) {
   // must be admin or secure member
-  if (req.payload.type !== 'Admin' && req.payload.type !== 'Secure Member') {
-    res.status(401).json({message: 'Unauthorized access to problem bank'});
+  if (req.payload.type !== 'Admin' && req.payload.type !== 'Secure Member' && req.payload.type !== 'Test Solver') {
+    res.status(401)
   }
   Proposals.find(function(err, result) {
     if(err) { return next(err); }
 
     console.log('Problem bank requested')
-    res.json(result);
-  });
-});
+    res.json(result)
+  })
+})
 
 router.post('/proposals/', auth, function(req, res, next) {
   // proposer must match request
   if (req.payload.id != req.body.staffid) {
-    res.status(401).json({message: 'Unauthorized post to problem proposals'});
+    res.status(401)
   }
   Proposals.create(req.body, function(err, result) {
     if(err) { return next(err); }
@@ -141,34 +141,35 @@ router.param('probid', function(req, res, next, id) {
     if(err) { return next(err); }
     if(!result) { return next(new Error('can\'t find probid')); }
 
-    req.prob = result;
-    return next();
+    req.prob = result
+    return next()
   });
 });
 
 router.get('/proposals/:prob_staffid', auth, function(req, res, next) {
   // must be proposer
   if (req.payload.id != req.proposals.staffid) {
-    res.status(401);
+    res.status(401)
   }
   console.log('Problem proposals for staff '+req.proposals.staffid.toString()+' requested');
-  res.json(req.proposals.proposals);
+  res.json(req.proposals.proposals)
 });
 
 router.get('/proposals/problem/:probid', auth, function(req, res, next) {
   // must be proposer, admin, or secure member
   if (req.payload.type != 'Admin' &&
       req.payload.type != 'Secure Member' &&
+      req.payload.type != 'Test Solver' &&
       req.payload.id != req.prob[0].staffid) {
-    res.status(401);
+    res.status(401)
   }
-  res.json(req.prob);
+  res.json(req.prob)
 });
 
 router.put('/proposals/problem/:probid', auth, function(req, res, next) {
   // must be proposer
   if (req.payload.id != req.prob[0].staffid) {
-    res.status(401);
+    res.status(401)
   }
 
   Proposals.update({probid: req.prob[0].probid}, req.body, function(err, result) {
@@ -208,7 +209,7 @@ router.delete('/proposals/problem/:probid', auth, function(req, res, next) {
     if (err) { return next(err); }
     if (!result) { return next(new Error('can\'t find probid')); }
 
-    res.status(200).json({probid: req.prob[0].probid});
+    res.json({probid: req.prob[0].probid});
   });
 });
 
@@ -231,7 +232,7 @@ router.post('/comments', auth, function(req, res, next) {
 
     console.log('Comment received: ');
     console.log(req.body);
-    res.status(200).json(req.body);
+    res.json(req.body);
   });
 });
 
@@ -252,7 +253,7 @@ router.post('/solutions', auth, function(req, res, next) {
 
     console.log('Alternate solution received: ');
     console.log(req.body);
-    res.status(200).json(req.body);
+    res.json(req.body);
   });
 });
 
@@ -292,7 +293,7 @@ router.put('/staff/type/:staffid', auth, function(req, res, next) {
     if (!result) { return next(new Error('can\'t find staffid')); }
 
     console.log('Staff account type of '+req.staff.staffid.toString()+' updated to '+req.body.type);
-    res.status(200).json(req.body);
+    res.json(req.body);
   });
 });
 

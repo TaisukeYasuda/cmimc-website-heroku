@@ -66,7 +66,12 @@ function($stateProvider, $urlRouterProvider) {
         postPromise: ['proposals', function(proposals){
           return proposals.getAll()
         }]
-      }
+      },
+      onEnter: ['$state', 'auth', function ($state, auth) {
+        if (!auth.isLoggedIn() || auth.accountType() === 'Test Solver') {
+          $state.go('access-denied')
+        }
+      }]
     })
     .state('access-denied', {
       url: '/access-denied',
@@ -101,7 +106,16 @@ function($stateProvider, $urlRouterProvider) {
     .state('propose', {
       url: '/propose',
       templateUrl: 'templates/propose.html',
-      controller: 'proposeCtrl'
+      controller: 'proposeCtrl',
+      onEnter: ['$state', 'auth', function ($state, auth) {
+        if (auth.isLoggedIn()) {
+          if (auth.accountType() === 'Test Solver') {
+            $state.go('prob-bank')
+          }
+        } else {
+          $state.go('access-denied')
+        }
+      }]
     })
     .state('login', {
       url: '/login',
@@ -109,7 +123,11 @@ function($stateProvider, $urlRouterProvider) {
       controller: 'authCtrl',
       onEnter: ['$state', 'auth', function ($state, auth) {
         if (auth.isLoggedIn()) {
-          $state.go('propose')
+          if (auth.accountType() === 'Test Solver') {
+            $state.go('prob-bank')
+          } else {
+            $state.go('propose')
+          }
         }
       }]
     })
