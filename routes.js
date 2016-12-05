@@ -288,7 +288,7 @@ router.post('/solutions', auth, function(req, res, next) {
   });
 });
 
-router.delete('/comments/problem/:solutionid', auth, function(req, res, next) {
+router.delete('/solutions/problem/:solutionid', auth, function(req, res, next) {
   if (req.payload.id != req.sol[0].staffid) {
     res.status(401).json({message: 'Unauthorized deletion of solution'});
   }
