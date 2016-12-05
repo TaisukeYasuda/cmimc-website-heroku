@@ -21,10 +21,12 @@ Author: {{prob.staffname}} <br />
 	<tr>
 		<td>User</td>
 		<td>Solution</td>
+		<td><td>
 	</tr>
 	<tr ng-repeat="s in solutions">
 		<td>{{s.staffid}}</td>
 		<td>{{s.solution}}</td>
+		<td ng-if="s.staffid === myID"><a class="form-btn" onclick="deletesol()">Delete</a></td>
 	</tr>
 	</table>
 </div>
@@ -51,10 +53,12 @@ Author: {{prob.staffname}} <br />
 	<tr>
 		<td>User</td>
 		<td>Comment</td>
+		<td></td>
 	</tr>
 	<tr ng-repeat="c in comments">
 		<td>{{c.staffid}}</td>
 		<td>{{c.comment}}</td>
+		<td ng-if="c.staffid === myID"><a class="form-btn" onclick="deletecomm()">Delete</a></td>
 	</tr>
 	</table>
 </div>

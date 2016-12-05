@@ -63,6 +63,10 @@ function($scope, $rootScope, $state, $stateParams, auth, proposals, comments, so
     }
   })
 
+  socket.on('comment deleted', function (comment) {
+    comments.deleteComment(comment)
+  })
+
   socket.on('comment', function (comment) {
     if ($stateParams.id == comment.probid) {
       comments.newComment(comment)
@@ -73,6 +77,10 @@ function($scope, $rootScope, $state, $stateParams, auth, proposals, comments, so
     if ($stateParams.id === solution.probid) {
       solutions.newSolution(solution)
     }
+  })
+
+  socket.on('soltution deleted', function (solution) {
+    solutions.deleteComment(solution)
   })
 }])
 
@@ -153,12 +161,13 @@ app.controller('viewProbCtrl', [
 function ($scope, $state, $stateParams, auth, proposals, comments, solutions) {
   $scope.comments = comments.comments
   $scope.solutions = solutions.solutions
+  $scope.myID = auth.staffId()
 
   var p = proposals.prob
   if (p == []) {
     $state.go('proposals') //@TODO go to an error message
   } else {
-    $scope.prob = proposals.prob[0];
+    $scope.prob = proposals.prob[0]
     $scope.revealIdentity = function() {
       document.getElementById("prob-author").innerHTML = $scope.prob.staffid
       document.getElementById("prob-author").removeAttribute("href")

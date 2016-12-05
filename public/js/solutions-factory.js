@@ -33,5 +33,27 @@ app.factory('solutions', ['$http', 'auth', 'socket', function($http, auth, socke
     o.solutions.push(solution)
   }
 
+  o.deletesol = function (solutionid) {
+    return $http.delete('/solutions/problem/'+solutionid, {
+        headers: {Authorization: 'Bearer '+auth.getToken()}
+      }).success(function(data) {
+      socket.emit('solution deleted', data)
+    })
+  }
+
+  function deleteBySolutionId (solutions, solutionid) {
+    for (i in solutions) {
+      if (solutions[i].solutionid === solutionid) {
+        solutions.splice(i,1)
+        return
+      }
+    }
+  }
+
+  // problem deleted
+  o.deleteSolution = function (sol) {
+    deleteBySolutionId(o.solutions, sol.solutionid)
+  }
+
   return o;
 }]);

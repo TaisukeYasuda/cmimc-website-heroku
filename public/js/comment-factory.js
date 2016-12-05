@@ -28,6 +28,28 @@ app.factory('comments', ['$http', 'auth', 'socket', function($http, auth, socket
     })
   }
 
+  o.deletecomm = function (commentid) {
+    return $http.delete('/comments/problem/'+commentid, {
+        headers: {Authorization: 'Bearer '+auth.getToken()}
+      }).success(function(data) {
+      socket.emit('comment deleted', data)
+    })
+  }
+
+  function deleteByCommentid (comments, commentid) {
+    for (i in comments) {
+      if (comments[i].commentid === commentid) {
+        comments.splice(i,1)
+        return
+      }
+    }
+  }
+
+  // problem deleted
+  o.deleteComment = function (comm) {
+    deleteByProbId(o.comments, comm.commentid)
+  }
+
     // new comment added to bank
   o.newComment = function (comment) {
     o.comments.push(comment)

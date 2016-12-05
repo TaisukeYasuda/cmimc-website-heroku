@@ -146,6 +146,26 @@ router.param('probid', function(req, res, next, id) {
   });
 });
 
+router.param('commentid', function(req, res, next, id) {
+  Comments.find({commentid: id}, function(err, result) {
+    if(err) { return next(err); }
+    if(!result) { return next(new Error('can\'t find commentid')); }
+
+    req.comm = result;
+    return next();
+  });
+});
+
+router.param('solutionid', function(req, res, next, id) {
+  Solutions.find({solutionid: id}, function(err, result) {
+    if(err) { return next(err); }
+    if(!result) { return next(new Error('can\'t find solutionid')); }
+
+    req.sol = result;
+    return next();
+  });
+});
+
 router.get('/proposals/:prob_staffid', auth, function(req, res, next) {
   // must be proposer
   if (req.payload.id != req.proposals.staffid) {
@@ -235,6 +255,18 @@ router.post('/comments', auth, function(req, res, next) {
   });
 });
 
+router.delete('/comments/problem/:commentid', auth, function(req, res, next) {
+  if (req.payload.id != req.comm[0].staffid) {
+    res.status(401).json({message: 'Unauthorized deletion of comment'});
+  }
+  Comments.remove({commentid: req.comm[0].commentid}, function(err, result) {
+    if (err) { return next(err); }
+    if (!result) { return next(new Error('can\'t find commentid')); }
+
+    res.status(200).json({commentid: req.comm[0].commentid});
+  });
+});
+
 router.get('/solutions/problem/:probid', auth, function(req, res, next) {
   Solutions.find({probid: req.prob[0].probid}, function(err, result) {
     if (err) { return next(err); }
@@ -253,6 +285,18 @@ router.post('/solutions', auth, function(req, res, next) {
     console.log('Alternate solution received: ');
     console.log(req.body);
     res.status(200).json(req.body);
+  });
+});
+
+router.delete('/comments/problem/:solutionid', auth, function(req, res, next) {
+  if (req.payload.id != req.sol[0].staffid) {
+    res.status(401).json({message: 'Unauthorized deletion of solution'});
+  }
+  Comments.remove({solutionid: req.sol[0].solutionid}, function(err, result) {
+    if (err) { return next(err); }
+    if (!result) { return next(new Error('can\'t find solutionid')); }
+
+    res.status(200).json({solutionid: req.sol[0].solutionid});
   });
 });
 

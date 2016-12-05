@@ -54,17 +54,21 @@ ProposalSchema.plugin(autoIncrement.plugin, { model: 'Proposals', field: 'probid
 mongoose.model('Proposals', ProposalSchema);
 
 var CommentSchema = new mongoose.Schema({
+  commentid: Number, 
   staffid: Number,
   probid: Number,
   comment: String
 });
+CommentSchema.plugin(autoIncrement.plugin, { model: 'Comments', field: 'commentid' });
 mongoose.model('Comments', CommentSchema);
 
 var SolutionSchema = new mongoose.Schema({
+  solutionid: Number,
   staffid: Number,
   probid: Number,
   solution: String
 });
+SolutionSchema.plugin(autoIncrement.plugin, { model: 'Solutions', field: 'solutionid' });
 mongoose.model('Solutions', SolutionSchema);
 
 var Staff = mongoose.model('Staff');
